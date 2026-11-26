@@ -10,14 +10,34 @@ namespace LibrarySystem.PL.Controllers
 
         public IActionResult Privacy() => View();
 
-        public IActionResult ServerError() => View("InternalServerError");
-
-        [ActionName("StatusCode")]
-        public IActionResult HandleStatusCode(int code)
-            => code == 404 ? View("NotFound") : View("InternalServerError");
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
             => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult ServerError()
+        {
+            Response.StatusCode = StatusCodes.Status500InternalServerError;
+            return View("InternalServerError");
+        }
+
+        [ActionName("StatusCode")]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult HandleStatusCode(int code)
+        {
+            if (code == StatusCodes.Status404NotFound)
+            {
+                Response.StatusCode = code;
+                return View("NotFound");
+            }
+
+            if (code >= StatusCodes.Status500InternalServerError)
+            {
+                Response.StatusCode = StatusCodes.Status500InternalServerError;
+                return View("InternalServerError");
+            }
+
+            return View("NotFound");
+        }
     }
 }
