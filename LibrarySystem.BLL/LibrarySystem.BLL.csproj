@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibrarySystem.DAL\LibrarySystem.DAL.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+	  <NuGetAudit>false</NuGetAudit>
+	  <NoWarn>$(NoWarn);NU1902;NU1903</NoWarn>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
